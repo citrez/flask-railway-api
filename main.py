@@ -33,5 +33,9 @@ def update_record():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
+@app.route('/hello', methods=['GET'])
+def hello_world():
+    return jsonify({"message": "Hello, World!"}), 200
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=True)
