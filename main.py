@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 import psycopg2
 import os
 import logging
+from dotenv import load_dotenv
+load_dotenv()
+logger = logging.getLogger(__name__)
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -31,12 +34,14 @@ def update_record():
     try:
         conn = connect_db()
         cursor = conn.cursor()
+        logging.info("executing")
         cursor.execute(
-            "UPDATE whiskey_prices SET action = %s WHERE id = %s", (1, record_id)
+            "UPDATE whiskey_hammer_live_auction SET action = %s WHERE id = %s", (1, record_id)
         )
         conn.commit()
         cursor.close()
         conn.close()
+        logging.info("done executing")
         return (
             jsonify({"status": "success", "message": "Record updated successfully"}),
             200,
